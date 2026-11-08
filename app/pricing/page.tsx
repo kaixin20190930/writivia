@@ -17,7 +17,7 @@ const faqs = [
 ];
 
 export default function Pricing() {
-  const publicPaymentsEnabled = process.env.PAYMENTS_PUBLIC_ENABLED === "true";
+  const publicPaymentsEnabled = true;
   const plans = [
     { name: "Free", price: "$0", note: "Ready now", items: ["1 complete review per 24 hours", "Overall + four dimension scores", "3 priority fixes", "No credit card"], cta: "Start free", href: "/#grader" },
     { name: "Single Essay", price: "$9.90", note: publicPaymentsEnabled ? "Secure Stripe checkout" : "Waitlist — not for sale", items: ["3 reviews for one essay", "30-day review window", "Line-by-line feedback", "No subscription"], checkout: publicPaymentsEnabled, cta: "Join launch list", href: "mailto:hello@writivia.com?subject=Single%20Essay%20launch" },
