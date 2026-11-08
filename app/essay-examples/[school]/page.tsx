@@ -6,6 +6,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { essayExamples, exampleSlugs, getExample, getSchool, schoolExamples, schoolSlugs, wordCount } from "@/lib/examples";
 import { absoluteUrl } from "@/lib/site";
+import { getSchoolEssays } from "@/lib/school-essays";
 
 const promptGuidance: Record<string, string[]> = {
   harvard: [
@@ -161,6 +162,7 @@ function ExamplePage({ example }: { example: NonNullable<ReturnType<typeof getEx
 
 function SchoolGuidePage({ school }: { school: NonNullable<ReturnType<typeof getSchool>> }) {
   const others = schoolExamples.filter(item => item.slug !== school.slug).slice(0, 3);
+  const dedicatedExamples = getSchoolEssays(school.slug);
   return <>
     <section className="shell page-hero school-hero">
       <Breadcrumbs items={[{label:"Essay examples",href:"/essay-examples/"},{label:school.short,href:`/essay-examples/${school.slug}/`}]} />
@@ -172,6 +174,7 @@ function SchoolGuidePage({ school }: { school: NonNullable<ReturnType<typeof get
     <section className="shell category-guide"><div className="section-heading"><span className="section-number">School-specific planning</span><h2>{schoolDeepDive[school.slug].title}</h2></div><div className="guide-introduction">{schoolDeepDive[school.slug].paragraphs.map(paragraph=><p key={paragraph}>{paragraph}</p>)}</div></section>
     <section className="paper-section"><div className="shell school-advice"><div className="section-heading"><span className="section-number">Drafting strategy</span><h2>Build the answer from evidence, not adjectives.</h2></div><div className="advice-grid">{school.advice.map((item,index) => <article key={item.title}><span>0{index + 1}</span><h3>{item.title}</h3><p>{item.text}</p></article>)}</div><div className="pitfall"><strong>Most common mistake</strong><p>{school.pitfall}</p></div></div></section>
     <section className="shell self-check"><div><span className="section-number">Before you submit</span><h2>Three questions to test the draft.</h2></div><ol>{school.questions.map(question => <li key={question}>{question}</li>)}</ol></section>
+    {dedicatedExamples.length > 0 && <section className="paper-section"><div className="shell guide-samples"><span className="section-number">Five complete {school.short} samples</span><h2>Each example is team-written, fully readable, and annotated.</h2><div>{dedicatedExamples.map(example=><Link href={`/essay-examples/${school.slug}/${example.slug}/`} key={example.slug}><BookOpenCheck size={18}/><span><strong>{example.title}</strong><small>{example.promptType} · {wordCount(example.body)} words</small></span><ArrowRight size={17}/></Link>)}</div></div></section>}
     <section className="shell guide-samples"><span className="section-number">Study technique in a complete essay</span><h2>These examples are not {school.short}-specific. Use them to study structure.</h2><div>{essayExamples.map(example => <Link href={`/essay-examples/${example.slug}/`} key={example.slug}><BookOpenCheck size={18}/><span><strong>{example.title}</strong><small>{example.category} · {wordCount(example.body)} words</small></span><ArrowRight size={17}/></Link>)}</div></section>
     <section className="shell school-next"><div><span className="section-number">Next step</span><h2>Want to see what your draft can improve?</h2><Link className="button" href="/#grader">Use the college essay grader</Link></div><div><h3>More school guides</h3>{others.map(other => <Link href={`/essay-examples/${other.slug}/`} key={other.slug}>{other.short}<ArrowRight size={16} /></Link>)}<Link href="/essay-examples/">All essay examples<ArrowRight size={16} /></Link></div></section>
   </>;
