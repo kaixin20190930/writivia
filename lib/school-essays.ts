@@ -453,6 +453,20 @@ export const schoolEssays: SchoolEssay[] = [
 ];
 
 export const schoolEssaySlugs = schoolEssays.map(essay => ({ school: essay.schoolSlug, essay: essay.slug }));
+const schoolEssayDates: Record<string,string> = {
+  harvard: "2026-11-08T22:51:35+08:00",
+  stanford: "2026-11-08T22:54:57+08:00",
+  mit: "2026-11-08T23:00:12+08:00",
+  nyu: "2026-11-08T23:05:43+08:00",
+  "johns-hopkins": "2026-11-08T23:10:22+08:00",
+  ucla: "2026-11-08T23:44:30+08:00",
+  cornell: "2026-11-08T23:44:30+08:00",
+  usc: "2026-11-08T23:44:30+08:00",
+};
+export function getSchoolEssayDates(essay: SchoolEssay) {
+  const timestamp = schoolEssayDates[essay.schoolSlug];
+  return { publishedAt: timestamp, updatedAt: timestamp };
+}
 export function getSchoolEssay(schoolSlug: string, essaySlug: string) {
   return schoolEssays.find(essay => essay.schoolSlug === schoolSlug && essay.slug === essaySlug);
 }
