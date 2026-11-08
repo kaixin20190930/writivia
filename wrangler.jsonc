@@ -1,0 +1,33 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "writivia",
+  "account_id": "23e53b75ddd6ee2d8b80031f6a1e45e0",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-07",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "www.writivia.com", "custom_domain": true },
+    { "pattern": "writivia.com", "custom_domain": true },
+    { "pattern": "writivia.biz", "custom_domain": true },
+    { "pattern": "www.writivia.biz", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "vars": {
+    "OPENAI_MODEL": "gpt-4o-mini"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "RATE_LIMIT",
+      "id": "8f958309e30f4d99b32060b71ce86ef8"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
