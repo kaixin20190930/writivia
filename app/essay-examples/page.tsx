@@ -14,6 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default function Examples() {
+  const whyUsExamples = exampleCategories.find(category => category.slug === "why-us")?.essays ?? [];
+  const essayAnchor = (title: string) => title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
   return <>
     <section className="shell page-hero examples-hero">
       <Breadcrumbs items={[{ label: "Essay examples", href: "/essay-examples/" }]} />
@@ -47,7 +49,7 @@ export default function Examples() {
           <div><strong>Common mistake</strong><p>{group.commonMistake}</p></div>
           <div><strong>Reading order</strong><p>{group.readingOrder}</p></div>
         </div>
-        {group.examples.length > 0 ? <div className="type-example-links">{group.examples.map(slug => { const example = getExample(slug); return example ? <Link href={`/essay-examples/${example.slug}/`} key={slug}><BookOpenCheck size={18} /><span><strong>{example.title}</strong><small>{wordCount(example.body)} words · complete sample with notes</small></span><ArrowUpRight size={18} /></Link> : null; })}</div> : <p className="honest-note">No complete “Why us” sample is published yet. Use the school-specific guides below while our editors finish the first full example.</p>}
+        {group.examples.length > 0 ? <div className="type-example-links">{group.examples.map(slug => { const example = getExample(slug); return example ? <Link href={`/essay-examples/${example.slug}/`} key={slug}><BookOpenCheck size={18} /><span><strong>{example.title}</strong><small>{wordCount(example.body)} words · complete sample with notes</small></span><ArrowUpRight size={18} /></Link> : null; })}</div> : <><p className="honest-note">A strong why-us essay starts with work you have already done, then explains what a specific school makes possible next.</p><div className="type-example-links">{whyUsExamples.map(example => <Link href={`/essay-examples/why-us/#${essayAnchor(example.title)}`} key={example.title}><BookOpenCheck size={18}/><span><strong>{example.title}</strong><small>Complete why-us sample with 3 editor notes</small></span><ArrowUpRight size={18}/></Link>)}</div></>}
       </section>)}
     </section>
 
