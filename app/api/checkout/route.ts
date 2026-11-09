@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
   const parsed=checkoutSchema.safeParse(await request.json().catch(()=>null));
   if(!parsed.success) return NextResponse.json({error:"A valid essay session is required."},{status:400});
   const {sessionId,essayId,plan}=parsed.data;
+  if(plan==="season_pass"&&process.env.SEASON_PASS_ENABLED!=="true") return NextResponse.json({error:"Season Pass checkout will open after account access is ready."},{status:409});
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const origin = new URL(request.url).origin;
   const bucket=Math.floor(Date.now()/(30*60*1000));
