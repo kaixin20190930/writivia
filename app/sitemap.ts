@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/essay-examples/", updatedAt:"2026-11-09", priority: .9, changeFrequency: "weekly" as const },
     { path: "/pricing/", updatedAt:"2026-11-09", priority: .7, changeFrequency: "monthly" as const },
     { path: "/refund-policy/", updatedAt:"2026-11-09", priority: .5, changeFrequency: "yearly" as const },
+    { path: "/privacy-policy/", updatedAt:"2026-11-09", priority: .5, changeFrequency: "yearly" as const },
     { path: "/ai-policy/", updatedAt:"2026-11-08", priority: .5, changeFrequency: "yearly" as const },
     { path: "/college-essay-reviewer/", updatedAt:"2026-11-08", priority: .8, changeFrequency: "monthly" as const },
     { path: "/personal-statement-grader/", updatedAt:"2026-11-09", priority: .8, changeFrequency: "monthly" as const },

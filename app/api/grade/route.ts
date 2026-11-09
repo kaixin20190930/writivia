@@ -2,7 +2,8 @@ import { createHash } from "node:crypto";
 import OpenAI from "openai";
 import { NextRequest, NextResponse } from "next/server";
 import { buildRubric, getGradeJsonSchema, gradeRequestSchema, gradeResultSchema } from "@/lib/rubric";
-import { clearServerSession, releaseFreeReview, releasePaidReview, reserveFreeReview, reservePaidReview } from "@/lib/ratelimit";
+import { clearServerSession, getActivePurchaseForUser, releaseFreeReview, releasePaidReview, reserveFreeReview, reservePaidReview } from "@/lib/ratelimit";
+import { auth } from "@clerk/nextjs/server";
 
 export const runtime = "nodejs";
 
@@ -33,7 +34,9 @@ export async function POST(request: NextRequest) {
 
   let reservationKeys: string[] = [];
   let paidReservation = false;
-  const purchaseId = request.cookies.get("writivia_purchase")?.value;
+  const {userId}=await auth();
+  const accountPurchase=userId?await getActivePurchaseForUser(userId).catch(()=>null):null;
+  const purchaseId = accountPurchase?.purchaseId||request.cookies.get("writivia_purchase")?.value;
   try {
     if (purchaseId) {
       const paid = await reservePaidReview(purchaseId, essayId);

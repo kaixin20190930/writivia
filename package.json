@@ -14,20 +14,21 @@
     "cf:deploy": "opennextjs-cloudflare build && wrangler deploy --env-file /dev/null --keep-vars"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.9.25",
     "@opennextjs/cloudflare": "^1.20.12",
     "lucide-react": "^0.468.0",
     "next": "15.5.29",
     "openai": "^6.8.1",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "19.1.4",
+    "react-dom": "19.1.4",
     "stripe": "^23.1.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.14",
     "@types/node": "^22.10.2",
-    "@types/react": "^19.0.2",
-    "@types/react-dom": "^19.0.2",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.20.6",
     "typescript": "^5.7.2",

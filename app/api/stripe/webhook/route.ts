@@ -16,8 +16,8 @@ export async function POST(request:NextRequest){
       const session=event.data.object,meta=session.metadata||{};
       const paymentIntentId=typeof session.payment_intent==="string"?session.payment_intent:session.payment_intent?.id;
       const plan=meta.plan==="season_pass"?"season_pass":"single_essay", expectedAmount=plan==="season_pass"?6900:990;
-      if(session.payment_status!=="paid"||session.amount_total!==expectedAmount||session.currency!=="usd"||!session.client_reference_id||!paymentIntentId||!meta.sessionId||!meta.essayId) throw new Error("Checkout session failed entitlement validation");
-      await activatePurchase({purchaseId:session.client_reference_id,checkoutSessionId:session.id,paymentIntentId,browserId:meta.sessionId,sessionId:meta.sessionId,essayId:meta.essayId,plan,purchasedAt:new Date(event.created*1000).toISOString()});
+      if(session.payment_status!=="paid"||session.amount_total!==expectedAmount||session.currency!=="usd"||!session.client_reference_id||!paymentIntentId||!meta.sessionId||!meta.essayId||!meta.userId) throw new Error("Checkout session failed entitlement validation");
+      await activatePurchase({purchaseId:session.client_reference_id,checkoutSessionId:session.id,paymentIntentId,browserId:meta.sessionId,sessionId:meta.sessionId,essayId:meta.essayId,userId:meta.userId,plan,purchasedAt:new Date(event.created*1000).toISOString()});
     }
     if(event.type==="charge.refunded"){
       const charge=event.data.object;

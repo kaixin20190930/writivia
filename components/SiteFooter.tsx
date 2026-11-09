@@ -19,6 +19,7 @@ export function SiteFooter() {
           <Link href="/essay-examples/">Essay examples</Link>
           <Link href="/pricing/">Pricing</Link>
           <Link href="/refund-policy/">Refund terms</Link>
+          <Link href="/privacy-policy/">Privacy</Link>
           <Link href="/ai-policy/">AI policy</Link>
         </div>
       </div>

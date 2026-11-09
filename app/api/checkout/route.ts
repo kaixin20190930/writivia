@@ -2,11 +2,14 @@ import { createHash } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { z } from "zod";
+import { auth } from "@clerk/nextjs/server";
 
 export const runtime = "nodejs";
 const checkoutSchema = z.object({ sessionId:z.string().min(8).max(128), essayId:z.string().min(8).max(128), plan:z.enum(["single_essay","season_pass"]).default("single_essay") });
 
 export async function POST(request: NextRequest) {
+  const {userId}=await auth();
+  if(!userId) return NextResponse.json({error:"Sign in before purchasing a review plan."},{status:401});
   if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) return NextResponse.json({ error: "Checkout is not configured yet." }, { status: 503 });
   const parsed=checkoutSchema.safeParse(await request.json().catch(()=>null));
   if(!parsed.success) return NextResponse.json({error:"A valid essay session is required."},{status:400});
@@ -17,7 +20,7 @@ export async function POST(request: NextRequest) {
   const bucket=Math.floor(Date.now()/(30*60*1000));
   const idempotencyKey=createHash("sha256").update(`${sessionId}:${essayId}:${plan}:${bucket}`).digest("hex");
   const purchaseId=idempotencyKey.slice(0,32);
-  const metadata={writivia_purchase_id:purchaseId,sessionId,essayId,plan};
+  const metadata={writivia_purchase_id:purchaseId,sessionId,essayId,plan,userId};
   const product = plan === "season_pass"
     ? { amount:6900, name:"Writivia Season Pass", description:"30 essay reviews across 180 days; one-time purchase" }
     : { amount:990, name:"Writivia Single Essay", description:"3 reviews for one essay across 30 days" };

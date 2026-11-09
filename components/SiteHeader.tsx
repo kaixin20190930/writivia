@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Show, SignInButton, UserButton } from "@clerk/nextjs";
+import { Suspense } from "react";
 
 const links = [
   ["Essay reviewer", "/college-essay-reviewer/"],
@@ -18,7 +20,13 @@ export function SiteHeader() {
             <Link key={href} href={href}>{label}</Link>
           ))}
         </nav>
-        <Link href="/#grader" className="button button-small">Grade my essay</Link>
+        <div className="header-account">
+          <Suspense>
+            <Show when="signed-out"><SignInButton mode="modal"><button className="text-button" type="button">Sign in</button></SignInButton></Show>
+            <Show when="signed-in"><Link href="/account/">Account</Link><UserButton /></Show>
+          </Suspense>
+          <Link href="/#grader" className="button button-small">Grade my essay</Link>
+        </div>
       </div>
     </header>
   );

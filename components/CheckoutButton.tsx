@@ -2,10 +2,14 @@
 
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
+import { useAuth, useClerk } from "@clerk/nextjs";
 
 export function CheckoutButton({ plan = "single_essay", label = "Review one essay" }: { plan?: "single_essay" | "season_pass"; label?: string }) {
   const [status, setStatus] = useState<"idle"|"loading"|"error">("idle");
+  const {isSignedIn}=useAuth();
+  const {openSignIn}=useClerk();
   async function checkout() {
+    if(!isSignedIn){ openSignIn({forceRedirectUrl:"/pricing/"}); return; }
     setStatus("loading");
     try {
       const sessionId = localStorage.getItem("writivia:session") || crypto.randomUUID();

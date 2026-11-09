@@ -26,6 +26,14 @@ h3 { font-size:1.35rem; }
 .button-wide { width:100%; }
 .purchase-terms { display:block; margin-top:12px; color:var(--muted); line-height:1.45; text-align:center; }
 .purchase-terms a { color:var(--blue); text-decoration:underline; }
+.header-account { display:flex; align-items:center; gap:14px; }
+.account-plans { padding-bottom:72px; }
+.account-plan { border:1px solid var(--line); border-radius:18px; padding:24px; margin-top:18px; background:var(--paper); }
+.account-plan dl { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin:20px 0 0; }
+.account-plan dl div { border-top:1px solid var(--line); padding-top:12px; }
+.account-plan dt { color:var(--muted); font-size:.82rem; }
+.account-plan dd { margin:5px 0 0; font-weight:700; }
+.account-help { padding-bottom:72px; }
 .button-outline { background:transparent; color:var(--blue); }
 .button-light { background:#fff; color:var(--navy); border-color:#fff; }
 .hero { position:relative; padding:78px 0 40px; }

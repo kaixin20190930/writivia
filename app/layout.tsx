@@ -1,3 +1,4 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
@@ -22,9 +23,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={[inter.variable, sourceSerif.variable].join(" ")}>
       <body>
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        <ClerkProvider>
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+        </ClerkProvider>
       </body>
     </html>
   );
