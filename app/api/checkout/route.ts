@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
     success_url: `${origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}#grader`,
     cancel_url: `${origin}/pricing/?checkout=cancelled`,
     allow_promotion_codes: true,
+    consent_collection: { terms_of_service: "required" },
   },{idempotencyKey});
   if (!session.url) return NextResponse.json({ error: "Stripe did not return a checkout URL." }, { status: 502 });
   const response = NextResponse.json({ url: session.url });
