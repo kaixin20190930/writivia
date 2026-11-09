@@ -5,8 +5,8 @@ import { absoluteUrl } from "@/lib/site";
 import { getSchoolEssayDates, schoolEssays } from "@/lib/school-essays";
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
-    { path: "/", updatedAt:"2026-11-08", priority: 1, changeFrequency: "weekly" as const },
-    { path: "/essay-examples/", updatedAt:"2026-11-08", priority: .9, changeFrequency: "weekly" as const },
+    { path: "/", updatedAt:"2026-11-09", priority: 1, changeFrequency: "weekly" as const },
+    { path: "/essay-examples/", updatedAt:"2026-11-09", priority: .9, changeFrequency: "weekly" as const },
     { path: "/pricing/", updatedAt:"2026-11-09", priority: .7, changeFrequency: "monthly" as const },
     { path: "/refund-policy/", updatedAt:"2026-11-09", priority: .5, changeFrequency: "yearly" as const },
     { path: "/ai-policy/", updatedAt:"2026-11-08", priority: .5, changeFrequency: "yearly" as const },
@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/college-essay-hook-grader/", updatedAt:"2026-11-08", priority: .7, changeFrequency: "monthly" as const },
     { path: "/college-acceptance-calculator/", updatedAt:"2026-11-08", priority: .75, changeFrequency: "monthly" as const },
   ];
-  const categoryUpdates:Record<string,string>={"personal-statement":"2026-11-09","common-app":"2026-11-08","why-us":"2026-11-08"};
+  const categoryUpdates:Record<string,string>={"personal-statement":"2026-11-09","common-app":"2026-11-09","application-essay":"2026-11-09","why-us":"2026-11-08"};
   return [
     ...staticPages.map(page => ({ url:absoluteUrl(page.path), lastModified:new Date(page.updatedAt), changeFrequency:page.changeFrequency, priority:page.priority })),
     ...essayExamples.map(example => ({ url:absoluteUrl(`/essay-examples/${example.slug}/`), lastModified:new Date(example.updatedAt), changeFrequency:"monthly" as const, priority:.8 })),

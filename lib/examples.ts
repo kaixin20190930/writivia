@@ -79,7 +79,10 @@ const schoolData: Omit<SchoolGuide, "updatedAt">[] = [
   { slug:"usc", name:"University of Southern California", short:"USC", promptTypes:["academic curiosity","community","short answers"], focus:"Combine a focused academic direction with concise answers that add personality rather than repeating the main essay.", introduction:"USC's longer response and short answers serve different purposes. The academic essay needs an evidence-based direction; short responses can add texture, humor, or unexpected interests while remaining truthful and clear.", advice:[{title:"Name an intersection",text:"If two fields matter, explain the problem that requires both instead of just claiming to be interdisciplinary."},{title:"Use USC specifically",text:"Choose a few resources and explain the work you would do with them."},{title:"Let short answers be short",text:"Prefer clear personal specifics to compressed profundity or name-dropping."}], questions:["What problem organizes the academic interests?","Which prior experience supports that direction?","Do the short answers reveal something new?"], pitfall:"Treating short answers as a branding exercise instead of honest details." },
 ];
 
-export const schoolExamples: SchoolGuide[] = schoolData.map(school => ({ ...school, updatedAt: "2026-11-08" }));
+export const schoolExamples: SchoolGuide[] = schoolData.map(school => ({
+  ...school,
+  updatedAt: ["ucla", "cornell", "usc"].includes(school.slug) ? "2026-11-09" : "2026-11-08",
+}));
 export const schoolSlugs = schoolExamples.map(school => school.slug);
 export const exampleSlugs = essayExamples.map(example => example.slug);
 export function getSchool(slug: string) { return schoolExamples.find(school => school.slug === slug); }
