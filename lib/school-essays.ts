@@ -525,7 +525,7 @@ const schoolEssayDates: Record<string,string> = {
 };
 export function getSchoolEssayDates(essay: SchoolEssay) {
   const newEssaySlugs = new Set(["the-fourth-piq-grid","the-proof-between-two-lines","the-orchard-after-the-spreadsheet","the-table-beside-the-freezer","the-frame-outside-the-frame","the-rehearsal-without-a-center"]);
-  const timestamp = newEssaySlugs.has(essay.slug) ? "2026-11-09T23:00:00+08:00" : schoolEssayDates[essay.schoolSlug];
+  const timestamp = newEssaySlugs.has(essay.slug) ? "2026-11-09T15:00:00+08:00" : schoolEssayDates[essay.schoolSlug];
   return { publishedAt: timestamp, updatedAt: timestamp };
 }
 export function getSchoolEssay(schoolSlug: string, essaySlug: string) {
