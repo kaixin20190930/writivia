@@ -1,7 +1,7 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const redirectHosts = new Set(["writivia.com", "writivia.biz", "www.writivia.biz"]);
+const redirectHosts = new Set(["www.writivia.com", "writivia.biz", "www.writivia.biz"]);
 
 export default clerkMiddleware((_auth, request) => {
   const host = request.headers.get("host")?.split(":")[0].toLowerCase();
@@ -9,7 +9,7 @@ export default clerkMiddleware((_auth, request) => {
 
   const destination = request.nextUrl.clone();
   destination.protocol = "https";
-  destination.hostname = "www.writivia.com";
+  destination.hostname = "writivia.com";
   destination.port = "";
   return NextResponse.redirect(destination, 301);
 });

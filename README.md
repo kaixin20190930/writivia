@@ -21,19 +21,19 @@ The grading route fails closed in production when its Cloudflare KV binding is m
 ## Stripe launch checklist
 
 1. Add the two Stripe secrets to the production Worker. Checkout stays disabled unless both exist.
-2. Create a Stripe webhook for `https://www.writivia.com/api/stripe/webhook/` and subscribe to `checkout.session.completed` and `charge.refunded`.
+2. Create a Stripe webhook for `https://writivia.com/api/stripe/webhook/` and subscribe to `checkout.session.completed` and `charge.refunded`.
 3. Complete a test-mode payment, confirm that a second review succeeds in the same browser, then issue a test refund and confirm access is removed.
 4. Switch to live keys only after the webhook succeeds in Stripe's event log.
 
 ## Search Console launch checklist
 
 1. Verify the `writivia.com` Domain property with the DNS TXT record provided by Google Search Console.
-2. Submit `https://www.writivia.com/sitemap.xml`.
+2. Submit `https://writivia.com/sitemap.xml`.
 3. Inspect `/`, `/essay-examples/`, one complete example, and one school guide after deployment.
 
 ## Domain setup
 
-The canonical host is https://www.writivia.com. middleware.ts sends an explicit 301 from the bare .com, writivia.biz, and www.writivia.biz to the same path on the canonical host. The four hostnames still need to be attached to the production project and pointed there in DNS for these redirects to receive traffic.
+The canonical host is https://writivia.com. The worker and middleware send an explicit 301 from www.writivia.com, writivia.biz, and www.writivia.biz to the same path on the canonical host. The four hostnames still need to be attached to the production project and pointed there in DNS for these redirects to receive traffic.
 
 ## Essay example slug rules
 

@@ -1,13 +1,13 @@
 import openNextWorker from "./.open-next/worker.js";
 
-const redirectHosts = new Set(["writivia.com", "writivia.biz", "www.writivia.biz"]);
+const redirectHosts = new Set(["www.writivia.com", "writivia.biz", "www.writivia.biz"]);
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (redirectHosts.has(url.hostname)) {
       url.protocol = "https:";
-      url.hostname = "www.writivia.com";
+      url.hostname = "writivia.com";
       url.port = "";
       return Response.redirect(url.toString(), 301);
     }
