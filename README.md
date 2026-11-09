@@ -35,6 +35,13 @@ The grading route fails closed in production when its Cloudflare KV binding is m
 
 The canonical host is https://www.writivia.com. middleware.ts sends an explicit 301 from the bare .com, writivia.biz, and www.writivia.biz to the same path on the canonical host. The four hostnames still need to be attached to the production project and pointed there in DNS for these redirects to receive traffic.
 
+## Essay example slug rules
+
+- Standalone example slugs must not contain a school name. They live at `/essay-examples/<example-slug>/`.
+- School guides use the school slug at `/essay-examples/<school-slug>/`.
+- School-specific examples use `/essay-examples/<school-slug>/<example-slug>/`; the nested example slug only needs to be unique within that school.
+- Before publishing, run `pnpm validate:slugs` to catch a standalone example that collides with a school guide or includes a known school slug.
+
 ## Verification
 
 Run pnpm typecheck, pnpm build, and git diff --check before deployment.

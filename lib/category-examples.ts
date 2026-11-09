@@ -1,5 +1,5 @@
 export type CategoryEssay={title:string;prompt:string;body:string[];notes:string[]};
-export type ExampleCategory={slug:string;name:string;title:string;description:string;toolHref:string;toolLabel:string;intro:string[];sections:{title:string;body:string}[];essays:CategoryEssay[];faqs:[string,string][]};
+export type ExampleCategory={slug:string;name:string;title:string;description:string;updatedAt?:string;toolHref:string;toolLabel:string;intro:string[];sections:{title:string;body:string}[];essays:CategoryEssay[];faqs:[string,string][]};
 
 export const exampleCategories:ExampleCategory[]=[
 {slug:"personal-statement",name:"Personal Statement Examples",title:"Personal Statement Examples: Three Annotated Essays",description:"Read three original personal statement examples with honest word counts and editor notes on structure, evidence, and reflection.",toolHref:"/personal-statement-grader/",toolLabel:"Grade your personal statement",intro:[

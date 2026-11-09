@@ -140,6 +140,11 @@ export async function generateMetadata({ params }: { params: Promise<{ school: s
 function ExamplePage({ example }: { example: NonNullable<ReturnType<typeof getExample>> }) {
   const related = essayExamples.filter(item => item.slug !== example.slug);
   const count = wordCount(example.body);
+  const techniqueHeading = {
+    "the-prep-list": "Follow the moment a private routine becomes a shared system.",
+    "the-eighty-seven-second-test": "Track the test that replaces an elegant but wrong assumption.",
+    "two-jars": "Watch an orderly archive change when community knowledge enters.",
+  }[example.slug];
   return <>
     <section className="shell page-hero school-hero">
       <Breadcrumbs items={[{label:"Essay examples",href:"/essay-examples/"},{label:example.title,href:`/essay-examples/${example.slug}/`}]} />
@@ -151,7 +156,7 @@ function ExamplePage({ example }: { example: NonNullable<ReturnType<typeof getEx
       <div><span className="section-number">What to study</span><p>{example.lesson}</p></div>
     </section>
     <section className="paper-section essay-stack"><div className="shell"><article className="sample-essay standalone-example">
-      <header><span>Complete example · {count} words</span><h2>Read once for the story. Read again for the choices.</h2><p>The numbered editor notes explain transferable techniques. Do not copy the language, identity, or events.</p></header>
+      <header><span>Complete example · {count} words</span><h2>{techniqueHeading}</h2><p>The numbered editor notes explain transferable techniques. Do not copy the language, identity, or events.</p></header>
       <div className="essay-layout"><div className="essay-body">{example.body.map(paragraph => <p key={paragraph}>{paragraph}</p>)}<small>Original sample written by the Writivia team to illustrate technique. It is not a real student's submitted essay.</small></div>
       <aside><h3><PenLine size={17} /> Editor's margin</h3>{example.notes.map((note,index) => <div key={note}><span>{index + 1}</span><p>{note}</p></div>)}</aside></div>
     </article></div></section>

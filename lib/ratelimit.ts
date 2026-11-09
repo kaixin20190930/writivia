@@ -14,10 +14,13 @@ export async function getPurchase(purchaseId:string|undefined){
 }
 export async function savePurchase(purchase:Purchase){ await requireStore().put(purchaseKey(purchase.purchaseId),JSON.stringify(purchase),{expirationTtl:PURCHASE_TTL}); }
 export async function activatePurchase(input:Omit<Purchase,"status"|"plan"|"reviewLimit"|"reviewCount"|"purchasedAt"|"expiresAt">&{purchasedAt?:string}){
+  const store=requireStore();
+  const purchaseIdForSession=await store.get(`writivia:stripe-session:${input.checkoutSessionId}`);
+  if(purchaseIdForSession){ const existingForSession=await getPurchase(purchaseIdForSession); if(existingForSession) return existingForSession; }
   const existing=await getPurchase(input.purchaseId); if(existing) return existing;
   const purchasedAt=input.purchasedAt||new Date().toISOString();
   const purchase:Purchase={...input,status:"active",plan:"single_essay",reviewLimit:3,reviewCount:0,purchasedAt,expiresAt:new Date(Date.parse(purchasedAt)+DAY*30*1000).toISOString()};
-  await savePurchase(purchase); const store=requireStore();
+  await savePurchase(purchase);
   await store.put(`writivia:stripe-session:${purchase.checkoutSessionId}`,purchase.purchaseId,{expirationTtl:PURCHASE_TTL});
   await store.put(`writivia:stripe-payment:${purchase.paymentIntentId}`,purchase.purchaseId,{expirationTtl:PURCHASE_TTL}); return purchase;
 }

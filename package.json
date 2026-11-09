@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "validate:slugs": "tsx scripts/validate-slugs.ts",
+    "verify:purchase-idempotency": "tsx scripts/verify-purchase-idempotency.ts",
     "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "opennextjs-cloudflare preview",
     "cf:deploy": "opennextjs-cloudflare build && wrangler deploy --env-file /dev/null --keep-vars"
@@ -27,6 +29,7 @@
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "tailwindcss": "^4.1.14",
+    "tsx": "^4.20.6",
     "typescript": "^5.7.2",
     "wrangler": "^4.158.0"
   },

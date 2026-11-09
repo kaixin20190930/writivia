@@ -24,6 +24,8 @@ h3 { font-size:1.35rem; }
 .button:disabled { opacity:.7; cursor:wait; }
 .button-small { min-height:38px; padding:0 16px; font-size:.86rem; }
 .button-wide { width:100%; }
+.purchase-terms { display:block; margin-top:12px; color:var(--muted); line-height:1.45; text-align:center; }
+.purchase-terms a { color:var(--blue); text-decoration:underline; }
 .button-outline { background:transparent; color:var(--blue); }
 .button-light { background:#fff; color:var(--navy); border-color:#fff; }
 .hero { position:relative; padding:78px 0 40px; }
@@ -135,6 +137,10 @@ h3 { font-size:1.35rem; }
 .prose-section { padding:90px 0; max-width:980px; }
 .prose-section h2 { margin-top:55px; font-size:2.7rem; }
 .prose-section p { font-size:1.05rem; color:#404855; max-width:780px; }
+.prose-section a { color:var(--blue); text-decoration:underline; }
+.statement-score-example { max-width:780px; margin:38px 0 16px; }
+.statement-score-example .score-head p { margin:8px 0 0; }
+.grader-faqs { margin:25px 0 0; }
 .bad-openings { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:35px 0; }
 .bad-openings article { border-top:3px solid var(--red); background:var(--paper); padding:22px; }
 .bad-openings strong { font-family:var(--font-serif),Georgia,serif; }
