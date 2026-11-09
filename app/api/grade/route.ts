@@ -40,9 +40,9 @@ export async function POST(request: NextRequest) {
       if (!paid.success) {
         const messages: Record<string,string> = {
           PURCHASE_REFUNDED: "This purchase was refunded and no longer includes review access.",
-          PURCHASE_EXPIRED: "This 30-day review window has expired.",
+          PURCHASE_EXPIRED: "This paid review window has expired.",
           ESSAY_MISMATCH: "This purchase is linked to a different essay.",
-          PAID_LIMIT_REACHED: "All three paid reviews have been used.",
+          PAID_LIMIT_REACHED: "All paid reviews included with this purchase have been used.",
           PURCHASE_NOT_FOUND: "We could not verify this purchase in this browser.",
         };
         return structuredError(paid.code, messages[paid.code] || "Paid access is unavailable.", 429, true);

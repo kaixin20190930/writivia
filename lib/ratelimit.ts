@@ -1,6 +1,6 @@
 type RateLimitStore = { get(key:string):Promise<string|null>; put(key:string,value:string,options:{expirationTtl:number}):Promise<void>; delete(key:string):Promise<void> };
-export type Purchase = { purchaseId:string; checkoutSessionId:string; paymentIntentId:string; browserId:string; sessionId:string; essayId:string; status:"active"|"refunded"|"expired"; plan:"single_essay"; purchasedAt:string; expiresAt:string; reviewLimit:number; reviewCount:number; refundedAt?:string };
-const DAY=86_400, PURCHASE_TTL=DAY*31, EVENT_TTL=DAY*90;
+export type Purchase = { purchaseId:string; checkoutSessionId:string; paymentIntentId:string; browserId:string; sessionId:string; essayId:string; status:"active"|"refunded"|"expired"; plan:"single_essay"|"season_pass"; purchasedAt:string; expiresAt:string; reviewLimit:number; reviewCount:number; refundedAt?:string };
+const DAY=86_400, PURCHASE_TTL=DAY*181, EVENT_TTL=DAY*365;
 export function getStore(){ return (globalThis as typeof globalThis&{RATE_LIMIT?:RateLimitStore}).RATE_LIMIT||null; }
 function requireStore(){ const store=getStore(); if(!store) throw new Error("RATE_LIMIT storage is not configured"); return store; }
 function purchaseKey(id:string){ return `writivia:purchase:${id}`; }
@@ -13,13 +13,14 @@ export async function getPurchase(purchaseId:string|undefined){
   return purchase;
 }
 export async function savePurchase(purchase:Purchase){ await requireStore().put(purchaseKey(purchase.purchaseId),JSON.stringify(purchase),{expirationTtl:PURCHASE_TTL}); }
-export async function activatePurchase(input:Omit<Purchase,"status"|"plan"|"reviewLimit"|"reviewCount"|"purchasedAt"|"expiresAt">&{purchasedAt?:string}){
+export async function activatePurchase(input:Omit<Purchase,"status"|"reviewLimit"|"reviewCount"|"purchasedAt"|"expiresAt">&{purchasedAt?:string}){
   const store=requireStore();
   const purchaseIdForSession=await store.get(`writivia:stripe-session:${input.checkoutSessionId}`);
   if(purchaseIdForSession){ const existingForSession=await getPurchase(purchaseIdForSession); if(existingForSession) return existingForSession; }
   const existing=await getPurchase(input.purchaseId); if(existing) return existing;
   const purchasedAt=input.purchasedAt||new Date().toISOString();
-  const purchase:Purchase={...input,status:"active",plan:"single_essay",reviewLimit:3,reviewCount:0,purchasedAt,expiresAt:new Date(Date.parse(purchasedAt)+DAY*30*1000).toISOString()};
+  const season=input.plan==="season_pass";
+  const purchase:Purchase={...input,status:"active",reviewLimit:season?30:3,reviewCount:0,purchasedAt,expiresAt:new Date(Date.parse(purchasedAt)+DAY*(season?180:30)*1000).toISOString()};
   await savePurchase(purchase);
   await store.put(`writivia:stripe-session:${purchase.checkoutSessionId}`,purchase.purchaseId,{expirationTtl:PURCHASE_TTL});
   await store.put(`writivia:stripe-payment:${purchase.paymentIntentId}`,purchase.purchaseId,{expirationTtl:PURCHASE_TTL}); return purchase;
@@ -36,7 +37,7 @@ export async function reservePaidReview(purchaseId:string|undefined,essayId:stri
   const purchase=await getPurchase(purchaseId); if(!purchase) return {success:false as const,code:"PURCHASE_NOT_FOUND"};
   if(purchase.status==="refunded") return {success:false as const,code:"PURCHASE_REFUNDED"};
   if(purchase.status!=="active") return {success:false as const,code:"PURCHASE_EXPIRED"};
-  if(purchase.essayId!==essayId) return {success:false as const,code:"ESSAY_MISMATCH"};
+  if(purchase.plan==="single_essay"&&purchase.essayId!==essayId) return {success:false as const,code:"ESSAY_MISMATCH"};
   if(purchase.reviewCount>=purchase.reviewLimit) return {success:false as const,code:"PAID_LIMIT_REACHED"};
   purchase.reviewCount+=1; await savePurchase(purchase); return {success:true as const,purchase};
 }

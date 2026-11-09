@@ -20,7 +20,7 @@ export default function RefundPolicy() {
       <h2>Seven-day request window</h2>
       <p>Request a refund within seven calendar days of purchase by emailing <a href="mailto:hello@writivia.com">hello@writivia.com</a>. Include the email address used at checkout and the Stripe receipt or payment reference so we can locate the order.</p>
       <h2>Eligibility</h2>
-      <p>A Single Essay purchase is eligible for a full refund when no more than one paid review has been completed. After two or more paid reviews have been completed, the purchase is not eligible for a refund. This rule lets a customer inspect the paid service while protecting the cost of repeated model processing.</p>
+      <p>A Single Essay or Season Pass purchase is eligible for a full refund when no more than one paid review has been completed. After two or more paid reviews have been completed, the purchase is not eligible for a refund. This rule lets a customer inspect the paid service while protecting the cost of repeated model processing.</p>
       <h2>How approved refunds work</h2>
       <p>Approved refunds are returned to the original payment method. We aim to review requests within three business days. After Stripe submits a refund, the card issuer or bank controls when the credit appears; this commonly takes several additional business days.</p>
       <h2>Access after a refund</h2>

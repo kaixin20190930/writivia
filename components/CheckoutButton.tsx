@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 
-export function CheckoutButton() {
+export function CheckoutButton({ plan = "single_essay", label = "Review one essay" }: { plan?: "single_essay" | "season_pass"; label?: string }) {
   const [status, setStatus] = useState<"idle"|"loading"|"error">("idle");
   async function checkout() {
     setStatus("loading");
@@ -11,11 +11,11 @@ export function CheckoutButton() {
       const sessionId = localStorage.getItem("writivia:session") || crypto.randomUUID();
       const essayId = localStorage.getItem("writivia:essay:full") || crypto.randomUUID();
       localStorage.setItem("writivia:session", sessionId); localStorage.setItem("writivia:essay:full", essayId);
-      const response = await fetch("/api/checkout/", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({sessionId,essayId}) });
+      const response = await fetch("/api/checkout/", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({sessionId,essayId,plan}) });
       const body = await response.json();
       if (!response.ok || !body.url) throw new Error();
       window.location.assign(body.url);
     } catch { setStatus("error"); }
   }
-  return <div className="checkout-action"><button className="button button-outline button-wide" type="button" onClick={checkout} disabled={status === "loading"}>{status === "loading" ? <><LoaderCircle className="spin" size={18}/> Opening secure checkout…</> : "Review one essay"}</button>{status === "error" && <p role="alert">Checkout is temporarily unavailable. Please try again.</p>}</div>;
+  return <div className="checkout-action"><button className="button button-outline button-wide" type="button" onClick={checkout} disabled={status === "loading"}>{status === "loading" ? <><LoaderCircle className="spin" size={18}/> Opening secure checkout…</> : label}</button>{status === "error" && <p role="alert">Checkout is temporarily unavailable. Please try again.</p>}</div>;
 }
